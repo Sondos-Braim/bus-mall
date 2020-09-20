@@ -1,0 +1,19 @@
+*{
+    box-sizing: border-box;
+    background-color: skyblue;
+}
+header{
+    border: solid 2px orange;
+    background-color: orange;
+    height: 120px;
+}
+h1{
+    background-color: orange;
+    margin-left: 50px;
+}
+img{
+    width: 400px;
+    height: 400px;
+    margin: 20px;
+    border: solid 2px orange;
+}
