@@ -4,8 +4,6 @@ var images = document.getElementById('images');
 var firstImage = document.getElementById('first-image');
 var secondImage = document.getElementById('second-image');
 var thirdImage=document.getElementById('third-image');
-var result=document.getElementById('result');
-
 function Product(name, path) {
   this.name = name;
   this.path = path;
@@ -37,29 +35,32 @@ new Product('unicorn', 'images/unicorn.jpg');
 new Product('usb', 'images/usb.gif');
 new Product('water-can', 'images/water-can.jpg');
 new Product('wine-glass', 'images/wine-glass.jpg');
-
+var threeImages=[];
 function render(){
-  var leftImage=randomNumber(0,Product.all.length -1);
-  var middleImage=randomNumber(0,Product.all.length -1);
-  var rightImage=randomNumber(0,Product.all.length -1);
-  while(leftImage===middleImage||leftImage===rightImage){
-    leftImage=randomNumber(0,Product.all.length -1);
+  var leftIndex=randomNumber(0,Product.all.length -1);
+  var middleIndex=randomNumber(0,Product.all.length -1);
+  var rightIndex=randomNumber(0,Product.all.length -1);
+  while(leftIndex===middleIndex||leftIndex===rightIndex){
+    leftIndex=randomNumber(0,Product.all.length -1);
   }
-  while(middleImage===rightImage){
-    middleImage=randomNumber(0,Product.all.length -1);
+  while(middleIndex===rightIndex){
+    middleIndex=randomNumber(0,Product.all.length -1);
   }
-  firstImage.src = Product.all[leftImage].path;
-  secondImage.src = Product.all[middleImage].path;
-  thirdImage.src= Product.all[rightImage].path;
-  firstImage.alt = Product.all[leftImage].name;
-  secondImage.alt = Product.all[middleImage].name;
-  thirdImage.alt = Product.all[rightImage].name;
-  firstImage.title = Product.all[leftImage].name;
-  secondImage.title = Product.all[middleImage].name;
-  thirdImage.title = Product.all[rightImage].name;
-  Product.all[leftImage].shown++;
-  Product.all[middleImage].shown++;
-  Product.all[rightImage].shown++;
+  threeImages.push(leftIndex);
+  threeImages.push(middleIndex);
+  threeImages.push(rightIndex);
+  firstImage.src = Product.all[leftIndex].path;
+  secondImage.src = Product.all[middleIndex].path;
+  thirdImage.src= Product.all[rightIndex].path;
+  firstImage.alt = Product.all[leftIndex].name;
+  secondImage.alt = Product.all[middleIndex].name;
+  thirdImage.alt = Product.all[rightIndex].name;
+  firstImage.title = Product.all[leftIndex].name;
+  secondImage.title = Product.all[middleIndex].name;
+  thirdImage.title = Product.all[rightIndex].name;
+  Product.all[leftIndex].shown++;
+  Product.all[middleIndex].shown++;
+  Product.all[rightIndex].shown++;
 }
 images.addEventListener('click',clickHandler);
 function clickHandler(event) {
@@ -67,7 +68,7 @@ function clickHandler(event) {
     Product.clicks++;
     if(Product.clicks >=rounds) {
       images.removeEventListener('click', clickHandler);
-      getResult();
+      chart();
     }
     for (let i = 0; i < Product.all.length; i++) {
       if(Product.all[i].name === event.target.title){
@@ -83,14 +84,93 @@ render();
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min +1)) + min;
 }
+function chart() {
+  var ctx = document.getElementById('myChart');
+  const productNames = [];
+  const votes = [];
+  const shown=[];
+  for (let i = 0; i < Product.all.length; i++) {
+    productNames.push (Product.all[i].name);
+    votes.push(Product.all[i].votes);
+    shown.push(Product.all[i].shown);
+  }
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels:productNames ,
+      datasets: [
+        {
+          label: 'Votes',
+          data: votes,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+          ],
+          borderWidth: 1,
+        },
+        {
+          label: 'shown',
+          data: shown,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+}
+// function differnetindices(){
+//   var index1=randomNumber(0,Product.all.length -1);
+//   var index2=randomNumber(0,Product.all.length -1);
+//   var index3=randomNumber(0,Product.all.length -1);
+//   for(var i=0;i<threeImages.length;i++){
+//     while(index1===threeImages[i]){
+//       index1=randomNumber(0,Product.all.length -1);}
+//     while(index2===threeImages[i]){
+//       index2=randomNumber(0,Product.all.length -1);}
+//     while(index3===threeImages[i]){
+//       index3=randomNumber(0,Product.all.length -1);}
+//   }
+//   console.log(index1);
+//   console.log(index2);
+//   console.log(index3);
 
-function getResult(){
-  var ulEl=document.createElement('ul');
-  result.appendChild(ulEl);
-  for(var j=0;j<Product.all.length;j++){
-    var a=`${Product.all[j].name} had ${Product.all[j].votes} votes, and was shown ${Product.all[j].shown} times.`;
-    var liEl=document.createElement('li');
-    ulEl.appendChild(liEl);
-    liEl.textContent=a;
-  }}
-
+// }
+// differnetindices();
