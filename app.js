@@ -36,31 +36,45 @@ new Product('usb', 'images/usb.gif');
 new Product('water-can', 'images/water-can.jpg');
 new Product('wine-glass', 'images/wine-glass.jpg');
 var threeImages=[];
+
+
+
 function render(){
   var leftIndex=randomNumber(0,Product.all.length -1);
   var middleIndex=randomNumber(0,Product.all.length -1);
   var rightIndex=randomNumber(0,Product.all.length -1);
-  while(leftIndex===middleIndex||leftIndex===rightIndex){
-    leftIndex=randomNumber(0,Product.all.length -1);
+  threeImages.unshift(leftIndex);
+  threeImages.unshift(middleIndex);
+  threeImages.unshift(rightIndex);
+  console.log(threeImages);
+  while(threeImages[0]===threeImages[1]||threeImages[0]===threeImages[2]){
+    threeImages[0]=randomNumber(0,Product.all.length -1);
   }
-  while(middleIndex===rightIndex){
-    middleIndex=randomNumber(0,Product.all.length -1);
+  while(threeImages[1]===threeImages[2]){
+    threeImages[1]=randomNumber(0,Product.all.length -1);
   }
-  threeImages.push(leftIndex);
-  threeImages.push(middleIndex);
-  threeImages.push(rightIndex);
-  firstImage.src = Product.all[leftIndex].path;
-  secondImage.src = Product.all[middleIndex].path;
-  thirdImage.src= Product.all[rightIndex].path;
-  firstImage.alt = Product.all[leftIndex].name;
-  secondImage.alt = Product.all[middleIndex].name;
-  thirdImage.alt = Product.all[rightIndex].name;
-  firstImage.title = Product.all[leftIndex].name;
-  secondImage.title = Product.all[middleIndex].name;
-  thirdImage.title = Product.all[rightIndex].name;
-  Product.all[leftIndex].shown++;
-  Product.all[middleIndex].shown++;
-  Product.all[rightIndex].shown++;
+  while(threeImages[0]===threeImages[3]||threeImages[0]===threeImages[4]||threeImages[0]===threeImages[5]){
+    threeImages[0]=randomNumber(0,Product.all.length -1);
+  }
+  while(threeImages[1]===threeImages[3]||threeImages[1]===threeImages[4]||threeImages[1]===threeImages[5]){
+    threeImages[1]=randomNumber(0,Product.all.length -1);
+  }
+  while(threeImages[2]===threeImages[3]||threeImages[2]===threeImages[4]||threeImages[2]===threeImages[5]){
+    threeImages[2]=randomNumber(0,Product.all.length -1);
+  }
+
+  firstImage.src = Product.all[threeImages[0]].path;
+  secondImage.src = Product.all[threeImages[1]].path;
+  thirdImage.src= Product.all[threeImages[2]].path;
+  firstImage.alt = Product.all[threeImages[0]].name;
+  secondImage.alt = Product.all[threeImages[1]].name;
+  thirdImage.alt = Product.all[threeImages[2]].name;
+  firstImage.title = Product.all[threeImages[0]].name;
+  secondImage.title = Product.all[threeImages[1]].name;
+  thirdImage.title = Product.all[threeImages[2]].name;
+  Product.all[threeImages[0]].shown++;
+  Product.all[threeImages[1]].shown++;
+  Product.all[threeImages[2]].shown++;
 }
 images.addEventListener('click',clickHandler);
 function clickHandler(event) {
@@ -156,21 +170,4 @@ function chart() {
     },
   });
 }
-// function differnetindices(){
-//   var index1=randomNumber(0,Product.all.length -1);
-//   var index2=randomNumber(0,Product.all.length -1);
-//   var index3=randomNumber(0,Product.all.length -1);
-//   for(var i=0;i<threeImages.length;i++){
-//     while(index1===threeImages[i]){
-//       index1=randomNumber(0,Product.all.length -1);}
-//     while(index2===threeImages[i]){
-//       index2=randomNumber(0,Product.all.length -1);}
-//     while(index3===threeImages[i]){
-//       index3=randomNumber(0,Product.all.length -1);}
-//   }
-//   console.log(index1);
-//   console.log(index2);
-//   console.log(index3);
 
-// }
-// differnetindices();
