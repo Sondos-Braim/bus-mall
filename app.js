@@ -14,6 +14,19 @@ function Product(name, path) {
 var rounds=25;
 Product.clicks=0;
 Product.all = [];
+function updateVotes() {
+  var productString = JSON.stringify(Product.all);
+  localStorage.setItem('Products', productString);
+}
+
+function getVotes() {
+
+  var productString = localStorage.getItem('Products');
+  var productArray = JSON.parse(productString);
+  if (productArray) {
+    Product.all=productArray;
+  }
+}
 console.log(Product.all);
 new Product('bag', 'images/bag.jpg');
 new Product('banana', 'images/banana.jpg');
@@ -83,6 +96,7 @@ function clickHandler(event) {
     if(Product.clicks >=rounds) {
       images.removeEventListener('click', clickHandler);
       chart();
+      updateVotes();
     }
     for (let i = 0; i < Product.all.length; i++) {
       if(Product.all[i].name === event.target.title){
@@ -170,4 +184,5 @@ function chart() {
     },
   });
 }
+getVotes();
 
