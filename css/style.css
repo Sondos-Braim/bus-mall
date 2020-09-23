@@ -10,13 +10,22 @@ header{
 h1{
     background-color: orange;
     margin-left: 50px;
-}
+    font-size: 45px;
+    position: relative;
+    top:30px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px black;
+    }
 img{
     width: 400px;
     height: 400px;
     margin: 20px;
-    border: solid 2px orange;
+    
 }
 #images{
     text-align: center;
+}
+img:hover{
+    border: solid 2px orange;
 }
