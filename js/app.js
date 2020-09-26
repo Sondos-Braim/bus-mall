@@ -58,10 +58,10 @@ function render() {
 }
 function updateImages(image) {
   var index=uniqueIndex();
-  console.log(index);
   image.src=Product.all[index].path;
   image.alt=Product.all[index].name;
   image.title=Product.all[index].name;
+  Product.all[index].shown++;
 }
 function uniqueIndex() {
   do{var index=Math.floor((Math.random() * Product.all.length));}
