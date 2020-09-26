@@ -1,13 +1,6 @@
 'use strict';
 
 var images = document.getElementById('images');
-var leftIndex =-1;
-var middleIndex=-1;
-var rightIndex=-1;
-var currentLeftImage;
-var currentmiddleImage;
-var currentrightImage;
-
 function Product(name, path) {
   this.name = name;
   this.path = path;
@@ -56,53 +49,29 @@ new Product('wine-glass', 'images/wine-glass.jpg');
 var firstImage = document.getElementById('first-image');
 var secondImage = document.getElementById('second-image');
 var thirdImage=document.getElementById('third-image');
-function contains(element, arr){
-  for(var i = 0; i<arr.length; i++){
-    if(arr[i] === element){
-      return true;
-    }
-  }
-  return false;
+
+var indexArray=[];
+function render() {
+  updateImages(firstImage);
+  updateImages(secondImage);
+  updateImages(thirdImage);
 }
-//make unique images
-function render(){
-  var displayedImages=[leftIndex,middleIndex,rightIndex];
-
-  leftIndex=Math.floor((Math.random() * Product.all.length));
-  middleIndex=Math.floor((Math.random() * Product.all.length));
-  rightIndex=Math.floor((Math.random() * Product.all.length));
-
-  //guarantee that each image in the row will not appear in the same row or the previous row
-  //compare the left with the previous
-  while(contains(leftIndex,displayedImages)){
-    leftIndex = Math.floor((Math.random() * Product.all.length));
-  }
-  //compare the middle with the left and previous
-  while(middleIndex===leftIndex || contains(middleIndex,displayedImages) ){
-    middleIndex = Math.floor((Math.random() * Product.all.length));
-  }
-  //compare the right with the left and middle and previous
-  while(rightIndex===leftIndex || rightIndex===middleIndex || rightIndex === contains(rightIndex,displayedImages)){
-    rightIndex =Math.floor((Math.random() * Product.all.length));
-  }
-  displayRandomImages(leftIndex,middleIndex,rightIndex);
+function updateImages(image) {
+  var index=uniqueIndex();
+  console.log(index);
+  image.src=Product.all[index].path;
+  image.alt=Product.all[index].name;
+  image.title=Product.all[index].name;
 }
-//display the images
-function displayRandomImages(left,middle,right){
-  currentLeftImage=Product.all[left];
-  currentmiddleImage=Product.all[middle];
-  currentrightImage=Product.all[right];
+function uniqueIndex() {
+  do{var index=Math.floor((Math.random() * Product.all.length));}
+  while(indexArray.includes(index));
+  indexArray.push(index);
 
-  currentLeftImage.shown++;
-  currentmiddleImage.shown++;
-  currentrightImage.shown++;
-
-  firstImage.setAttribute('src',currentLeftImage.path);
-  secondImage.setAttribute('src',currentmiddleImage.path);
-  thirdImage.setAttribute('src',currentrightImage.path);
-  firstImage.setAttribute('title',currentLeftImage.name);
-  secondImage.setAttribute('title',currentmiddleImage.name);
-  thirdImage.setAttribute('title',currentrightImage.name);
+  if(indexArray.length>6){
+    indexArray.splice(0,3);
+  }
+  return index;
 }
 render();
 //event listener
